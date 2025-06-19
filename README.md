@@ -1,61 +1,68 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Pixel-Positions
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A lightweight job-board web application built with **Laravel**.  
+It lets companies publish job offers, tag them by skill, and lets candidates search/filter openings in real time.
 
-## About Laravel
+> **Status:** early MVP – core posting, tagging and search flows work. Authentication, admin moderation, and CI still in progress.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Key features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Area | What’s implemented |
+|------|--------------------|
+| Job postings | create / edit / archive jobs (title, salary, description, location, remote flag) |
+| Employers     | company accounts, logo upload, public profile |
+| Tags & search | many-to-many job ↔ tag relation, full-text “q=” search (`Job::query()->where('title','LIKE','%foo%')`) |
+| Auth          | Laravel Breeze starter (sanctum + Blade) |
+| UI            | Tailwind CSS + Vite hot-reload |
+| Tests         | Feature tests for job CRUD |
 
-## Learning Laravel
+Planned next:
+* Applicant tracking (apply with CV, status updates)
+* Moderation & e-mail notifications
+* GitHub Actions CI + Pint / PHPUnit workflow
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🖥️ Tech stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Layer            | Tech                                                          |
+|------------------|---------------------------------------------------------------|
+| Backend API      | **Laravel 12**, PHP 8.2                                       |
+| Database         | MySQL 8 (works with SQLite for local dev)                     |
+| Front-end stack  | Blade, Tailwind CSS, Alpine.js (can be swapped for Vue/React) |
+| Tooling          | Composer, NPM, Vite, PHPUnit                                  |
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🚀 Quick start
 
-### Premium Partners
+### Prerequisites
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+* PHP >= 8.2 with `pdo_mysql` extension
+* Composer 2.x
+* Node.js >= 18 + npm
+* MySQL 8 (or Docker)
 
-## Contributing
+### Local setup
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+git clone https://github.com/Karrolxd/Pixel-Positions.git
+cd Pixel-Positions
 
-## Code of Conduct
+# install PHP deps
+composer install
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# copy env and set DB creds
+cp .env.example .env
+php artisan key:generate
 
-## Security Vulnerabilities
+# install JS deps & build assets
+npm install && npm run dev
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# run migrations + seed demo data
+php artisan migrate --seed
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# start the dev server
+php artisan serve
